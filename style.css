@@ -16,6 +16,8 @@
 	--secondary-color: #2980b9;
 	--success-color: #27ae60;
 	--danger-color: #e74c3c;
+	--primary-gradient:  linear-gradient(180deg, rgb(233, 30, 99),rgb(103, 58, 183));
+
 }
 
 /* Tema scuro */
@@ -29,6 +31,7 @@ body.dark-theme {
 	--secondary-color: #0d47a1;
 	--success-color: #4caf50;
 	--danger-color: #f44336;
+	--primary-gradient : linear-gradient(180deg, rgb(103, 58, 183) 80%, rgb(233, 30, 99) );
 }
 
 body {
@@ -47,7 +50,7 @@ body {
 }
 
 header {
-		background-color:var(--primary-color);
+		background :var(--primary-gradient);
 		color: white;
 		padding: 20px;
 		text-align: center;
@@ -93,7 +96,7 @@ header {
 }
 
 .navbar {
-	background-color: var(--secondary-color);
+	background: var(--primary-gradient);
 	color: white;
 	padding: 15px;
 	font-weight: bold;
