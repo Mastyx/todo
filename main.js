@@ -10,7 +10,7 @@ const quill = new Quill('#editor', {
 						[{ 'list': 'ordered'}, { 'list': 'bullet' }],
 						[{ 'color': [] }, { 'background': [] }],
 						[{ 'align': [] }],
-						['clean']
+
 				]
 		},
 		placeholder: 'Inserisci i dettagli del servizio...'
@@ -226,6 +226,9 @@ function selectClient(client) {
 
 
 	appState.selectedClient = client;
+
+	// aggiorna il nome del cliente visualizzato
+	document.getElementById("client-name-display").textContent = client.name;
 	
 	// Inizializza la lista servizi se non esiste
 	if (!client.services) {

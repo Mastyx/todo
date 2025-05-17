@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
 
 * {
 		margin: 0;
@@ -11,12 +14,12 @@
 	--card-background: #ffffff;
 	--text-color: #333333;
 	--border-color: #dddddd;
-	--grid-color: #e1e1e1;
+	--grid-color: #EEEEEE;
 	--primary-color: #3498db;
 	--secondary-color: #2980b9;
 	--success-color: #27ae60;
 	--danger-color: #e74c3c;
-	--primary-gradient:  linear-gradient(180deg, rgb(233, 30, 99),rgb(103, 58, 183));
+	--primary-gradient:  linear-gradient(180deg, #FFE1E0, #F49BAB);
 
 }
 
@@ -26,12 +29,12 @@ body.dark-theme {
 	--card-background: #1e1e1e;
 	--text-color: #ffffff;
 	--border-color: #333333;
-	--grid-color: #333333;
+	--grid-color: #444444;
 	--primary-color: #2196f3;
 	--secondary-color: #0d47a1;
 	--success-color: #4caf50;
 	--danger-color: #f44336;
-	--primary-gradient : linear-gradient(180deg, rgb(103, 58, 183) 80%, rgb(233, 30, 99) );
+	--primary-gradient : linear-gradient(180deg, #9b7ebd 80%, #F49BAB );
 }
 
 body {
@@ -57,6 +60,11 @@ header {
 		margin-bottom: 20px;
 		border-radius: 8px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+header>h1 {
+	font-family : Tangerine, sans-serif;
+	font-size : 50px;
+	text-shadow : 2px 2px #000;
 }
 
 .app-container {
@@ -342,20 +350,17 @@ header {
 		margin-bottom: 15px;
 }
 
-
-
 /* Stile per l'editor Quill con sfondo a quadretti */
 .ql-editor {
 	 background-image:
-				linear-gradient(var(--grid-color) 1px, transparent 1px),
-				linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-		background-size: 20px 20px;
+				linear-gradient(var(--grid-color) 1px, transparent 1px);
+		background-size: 100% 50px; /* 40px la distanza delle righe */
 		background-color: var(--card-background);
 		background-position: center center;
 		padding: 15px !important;
 		/* Ingrandimento del font */
 		font-size: 1.5rem;
-		line-height: 1.6;
+		line-height: 50px; /* corrisponde alla distanza delle righe */ 
 		color: var(--text-color);
 }
 
@@ -527,4 +532,10 @@ input:checked + .theme-toggle-slider:before {
 
 .dark-theme .unsaved-dot {
     background-color: #f39c12;
+}
+
+
+#client-name-display {
+	font-family : Cookie, sans-serif;
+	font-size : 2rem;
 }
