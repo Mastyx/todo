@@ -13,7 +13,6 @@ const quill = new Quill('#editor', {
 
 				]
 		},
-		placeholder: 'Inserisci i dettagli del servizio...'
 });
 
 // Stato dell'applicazione
