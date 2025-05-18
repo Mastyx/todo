@@ -57,72 +57,85 @@ function saveData() {
 
 // Rendering della lista clienti
 function renderClients() {
-		clientList.innerHTML = '';
-		
-		if (appState.clients.length === 0) {
-				const emptyItem = document.createElement('div');
-				emptyItem.className = 'empty-state';
-				emptyItem.innerHTML = '<p>Nessun cliente presente</p>';
-				clientList.appendChild(emptyItem);
-				return;
+	clientList.innerHTML = '';
+	
+	if (appState.clients.length === 0) {
+			const emptyItem = document.createElement('div');
+			emptyItem.className = 'empty-state';
+			emptyItem.innerHTML = '<p>Nessun cliente presente</p>';
+			clientList.appendChild(emptyItem);
+			return;
+	}
+
+	// ordina i clienti dal piu recente in alto
+	const sortedClients = [...appState.clients].sort((a,b)=>{
+		// Se il timestamp è presente, usa quello per ordinare
+		if (a.createdAt && b.createdAt) {
+				return b.createdAt - a.createdAt;
 		}
+		// Se manca il timestamp (per compatibilità con dati esistenti), 
+		// usa l'ID che contiene già un timestamp
+		return parseInt(b.id) - parseInt(a.id);
+	});
+	
+
+	sortedClients.forEach(client => {
+		const li = document.createElement('li');
+			li.className = 'client-item';
+			if (appState.selectedClient && appState.selectedClient.id === client.id) {
+					li.classList.add('active');
+		}
+			
+
+		const nameSpan = document.createElement('span');
+		nameSpan.textContent = client.name;
 		
-		appState.clients.forEach(client => {
-				const li = document.createElement('li');
-				li.className = 'client-item';
-				if (appState.selectedClient && appState.selectedClient.id === client.id) {
-						li.classList.add('active');
+		const actions = document.createElement('div');
+		actions.className = 'item-actions';
+		
+		const editBtn = document.createElement('button');
+		editBtn.className = 'edit-btn';
+		editBtn.innerHTML = "<i class='bx bx-edit'></i>";
+		editBtn.title = "Modifica"
+		editBtn.onclick = (e) => {
+				e.stopPropagation();
+				const newName = prompt('Modifica nome cliente:', client.name);
+				if (newName && newName.trim()) {
+						client.name = newName.trim();
+						saveData();
+						renderClients();
+						if (appState.selectedClient && appState.selectedClient.id === client.id) {
+								appState.selectedClient.name = newName.trim();
+						}
 				}
-				
-				const nameSpan = document.createElement('span');
-				nameSpan.textContent = client.name;
-				
-				const actions = document.createElement('div');
-				actions.className = 'item-actions';
-				
-				const editBtn = document.createElement('button');
-				editBtn.className = 'edit-btn';
-				editBtn.innerHTML = "<i class='bx bx-edit'></i>";
-				editBtn.title = "Modifica"
-				editBtn.onclick = (e) => {
-						e.stopPropagation();
-						const newName = prompt('Modifica nome cliente:', client.name);
-						if (newName && newName.trim()) {
-								client.name = newName.trim();
-								saveData();
-								renderClients();
-								if (appState.selectedClient && appState.selectedClient.id === client.id) {
-										appState.selectedClient.name = newName.trim();
-								}
+		};
+		
+		const removeBtn = document.createElement('button');
+		removeBtn.className = 'remove-btn';
+		removeBtn.innerHTML = "<i class='bx bx-trash-alt'></i>";
+		removeBtn.title = "Elimina";
+		removeBtn.onclick = (e) => {
+				e.stopPropagation();
+				if (confirm(`Sei sicuro di voler eliminare il cliente "${client.name}" e tutti i suoi servizi?`)) {
+						appState.clients = appState.clients.filter(c => c.id !== client.id);
+						if (appState.selectedClient && appState.selectedClient.id === client.id) {
+								appState.selectedClient = null;
+								showEmptyClientState();
 						}
-				};
-				
-				const removeBtn = document.createElement('button');
-				removeBtn.className = 'remove-btn';
-				removeBtn.innerHTML = "<i class='bx bx-trash-alt'></i>";
-				removeBtn.title = "Elimina";
-				removeBtn.onclick = (e) => {
-						e.stopPropagation();
-						if (confirm(`Sei sicuro di voler eliminare il cliente "${client.name}" e tutti i suoi servizi?`)) {
-								appState.clients = appState.clients.filter(c => c.id !== client.id);
-								if (appState.selectedClient && appState.selectedClient.id === client.id) {
-										appState.selectedClient = null;
-										showEmptyClientState();
-								}
-								saveData();
-								renderClients();
-						}
-				};
-				
-				actions.appendChild(editBtn);
-				actions.appendChild(removeBtn);
-				
-				li.appendChild(nameSpan);
-				li.appendChild(actions);
-				
-				li.addEventListener('click', () => selectClient(client));
-				clientList.appendChild(li);
-		});
+						saveData();
+						renderClients();
+				}
+		};
+		
+		actions.appendChild(editBtn);
+		actions.appendChild(removeBtn);
+		
+		li.appendChild(nameSpan);
+		li.appendChild(actions);
+		
+		li.addEventListener('click', () => selectClient(client));
+		clientList.appendChild(li);
+	});
 }
 
 // Rendering della lista servizi per il cliente selezionato

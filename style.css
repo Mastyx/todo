@@ -108,7 +108,7 @@ header>h1 {
 .navbar {
 	background: var(--primary-gradient);
 	color: white;
-	padding: 15px;
+	padding: 10px;
 	font-weight: bold;
 	display: flex;
 	justify-content: space-between;
@@ -118,6 +118,7 @@ header>h1 {
 .navbar h2 {
 		margin: 0;
 		font-size: 1.2rem;
+		text-shadow : 2px 2px #000;
 }
 
 .add-btn {
