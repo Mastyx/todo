@@ -351,8 +351,9 @@ header>h1 {
 		margin-bottom: 15px;
 }
 
-/* Stile per l'editor Quill con sfondo a quadretti */
+/* Stile per l'editor Quill con sfondo a righe*/
 .ql-editor {
+		/* stabiliamo lo sfondo con le righe */
 	 background-image:
 				linear-gradient(var(--grid-color) 1px, transparent 1px);
 		background-size: 100% 50px; /* 40px la distanza delle righe */
