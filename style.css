@@ -198,7 +198,6 @@ header>h1 {
 		gap: 10px;
 		min-width : 0;
 		overflow : hidden;
-
 }
 
 .completion-checkbox {
@@ -226,7 +225,7 @@ header>h1 {
 		padding: 10px;
 		margin-bottom: 15px;
 		width: 100%;
-		font-size: 1rem;
+		font-size: 1.6rem;
 }
 
 #editor-container {
@@ -361,7 +360,7 @@ header>h1 {
 		background-position: center center;
 		padding: 15px !important;
 		/* Ingrandimento del font */
-		font-size: 1.5rem;
+		font-size: 1.3rem;
 		line-height: 50px; /* corrisponde alla distanza delle righe */ 
 		color: var(--text-color);
 }
