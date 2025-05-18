@@ -355,13 +355,13 @@ header>h1 {
 		/* stabiliamo lo sfondo con le righe */
 	 background-image:
 				linear-gradient(var(--grid-color) 1px, transparent 1px);
-		background-size: 100% 50px; /* 40px la distanza delle righe */
+		background-size: 100% 30px; /* 40px la distanza delle righe */
 		background-color: var(--card-background);
 		background-position: center center;
-		padding: 15px !important;
+		padding: 30px 10px !important;
 		/* Ingrandimento del font */
-		font-size: 1.3rem;
-		line-height: 50px; /* corrisponde alla distanza delle righe */ 
+		font-size: 20px;
+		line-height: 30px; /* corrisponde alla distanza delle righe */ 
 		color: var(--text-color);
 }
 

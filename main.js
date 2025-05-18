@@ -10,7 +10,6 @@ const quill = new Quill('#editor', {
 						[{ 'list': 'ordered'}, { 'list': 'bullet' }],
 						[{ 'color': [] }, { 'background': [] }],
 						[{ 'align': [] }],
-
 				]
 		},
 });
