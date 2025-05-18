@@ -20,7 +20,7 @@
 	--success-color: #27ae60;
 	--danger-color: #e74c3c;
 	--primary-gradient:  linear-gradient(180deg, #FFE1E0, #F49BAB);
-
+	--sidebar-width : 280px;
 }
 
 /* Tema scuro */
@@ -44,7 +44,7 @@ body {
 }
 
 .container {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 0 auto;
 		padding: 20px;
 		height: 100vh;
@@ -78,7 +78,8 @@ header>h1 {
 .sidebar {
 		display: flex;
 		flex-direction: column;
-		width: 300px;
+		width: var(--sidebar-width);
+		min-width : var(--sidebar-width);
 }
 
 .sidebar-section {
@@ -540,3 +541,84 @@ input:checked + .theme-toggle-slider:before {
 	font-family : Cookie, sans-serif;
 	font-size : 2rem;
 }
+
+/* Stili specifici per il nuovo layout */
+.clients-sidebar, .services-sidebar {
+    height: 100%;
+}
+/* Migliora la media query per adattare il layout a schermi più piccoli */
+@media (max-width: 1000px) {
+    .app-container {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+        gap: 15px; /* Riduciamo lo spazio tra gli elementi */
+    }
+    
+    .sidebar {
+        width: 100%;
+        min-width: auto;
+        margin-bottom: 10px; /* Riduciamo il margine inferiore */
+    }
+    
+    .sidebar-section {
+        max-height: 400px; /* Riduciamo leggermente l'altezza massima */
+    }
+    
+    /* Fix per il contenitore principale */
+    .main-content {
+        height: 500px; /* Riduciamo l'altezza per dare più spazio alla sidebar servizi */
+        min-height: 500px;
+        margin-bottom: 10px; /* Aggiungiamo un margine inferiore */
+    }
+    
+    .editor-section {
+        height: 100%;
+        min-height: 450px;
+        padding: 15px; /* Riduciamo leggermente il padding */
+    }
+    
+    #editor-container {
+        height: 100%;
+        min-height: 350px;
+    }
+    
+    .quill-wrapper {
+        height: 100%;
+        min-height: 300px;
+    }
+    
+    .ql-container {
+        height: calc(100% - 43px) !important;
+        min-height: 250px;
+    }
+    
+    .ql-editor {
+        height: 100% !important;
+        min-height: 250px;
+    }
+    
+    /* Assicuriamo che la sidebar servizi sia completamente visibile */
+    .service-sidebar {
+        height: auto;
+        min-height: 100%;
+    }
+    
+    /* Riduciamo lo spazio occupato dall'header e dal toggle tema */
+    header {
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+    
+    .theme-toggle {
+        margin-bottom: 15px;
+        padding: 8px;
+    }
+    
+    /* Ridimensioniamo leggermente la json-actions */
+    .json-actions {
+        margin-bottom: 10px;
+        padding: 8px;
+    }
+}
+
