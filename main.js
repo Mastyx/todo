@@ -26,6 +26,11 @@ let appState = {
 let hasUnsavedChanges = false;
 
 
+// x salvataggio automatico 
+let autoSaveTimer = null;
+const AUTO_SAVE_DELAY = 3000; // 3 secondi 
+
+
 // Elementi DOM
 const clientList = document.getElementById('client-list');
 const serviceList = document.getElementById('service-list');
@@ -38,6 +43,9 @@ const cancelBtn = document.getElementById('cancel-btn');
 const downloadJsonBtn = document.getElementById('download-json-btn');
 const uploadJsonBtn = document.getElementById('upload-json-btn');
 const fileUpload = document.getElementById('file-upload');
+
+
+
 
 // Caricamento dei dati da localStorage
 function loadData() {
@@ -233,6 +241,10 @@ function selectClient(client) {
 		if (!confirm("Ci sono modifiche non salvate \n Procediamo comunque ? ")) {
 			return;
 		}
+	}
+		// Cancella il timer di autosave esistente
+	if (autoSaveTimer) {
+			clearTimeout(autoSaveTimer);
 	}
 
 
@@ -499,16 +511,19 @@ function setupChangeDetection() {
 	// Listener per i cambiamenti nel titolo
 	serviceTitleInput.addEventListener('input', function() {
 			showUnsavedChangesIndicator(true);
+		resetAutoSaveTimer();
 	});
 	
 	// Listener per i cambiamenti nell'editor Quill
 	quill.on('text-change', function() {
 			showUnsavedChangesIndicator(true);
+		resetAutoSaveTimer();
 	});
 	
 	// Resetta l'indicatore quando si salva o si cancella
 	saveServiceBtn.addEventListener('click', function() {
 			showUnsavedChangesIndicator(false);
+		clearTimeout(autoSaveTimer);
 	});
 	
 	// Aggiungi un avviso prima di cambiare servizio/client o ricaricare la pagina
@@ -521,6 +536,90 @@ function setupChangeDetection() {
 			}
 	});
 }
+// funzione per resettare il timer di autosave 
+const resetAutoSaveTimer = ()=>{
+	//cancella il timer esistente se presente
+	if (autoSaveTimer) {
+		clearTimeout(autoSaveTimer);
+	}
+
+	// crea un nuovo timer 
+	autoSaveTimer = setTimeout(()=>{
+		// verifica se ci sono clienti selezionatie modifiche non salvate
+		if (appState.selectedClient && hasUnsavedChanges) {
+			console.log("autosave eseguito");
+			performAutoSave();
+		}
+	}, AUTO_SAVE_DELAY);
+}
+// funzione per eseguire il salvataggio automatico 
+const performAutoSave = ()=> {
+	const title = serviceTitleInput.value.trim();
+	const content = quill.root.innerHTML;
+	
+	// Verifica che ci sia un titolo prima di salvare
+	if (!title) {
+			// Non eseguire l'autosave se non c'è un titolo
+			return;
+	}
+	
+	if (appState.editMode && appState.selectedService) {
+			// Aggiornamento di un servizio esistente
+			appState.selectedService.title = title;
+			appState.selectedService.content = content;
+			appState.selectedService.updatedAt = new Date().toISOString();
+			// Mantiene lo stato di completamento
+	} else {
+			// Creazione di un nuovo servizio
+			const newService = {
+					id: Date.now().toString(),
+					title: title,
+					content: content,
+					completed: false,
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString()
+			};
+			
+			if (!appState.selectedClient.services) {
+					appState.selectedClient.services = [];
+			}
+			
+			appState.selectedClient.services.push(newService);
+			appState.selectedService = newService;
+			appState.editMode = true; // Cambia a modalità di modifica dopo la creazione
+	}
+	
+	saveData();
+	renderServices();
+	
+	// Rimuovi l'indicatore di modifiche non salvate
+	showUnsavedChangesIndicator(false);
+	
+	// Mostra un feedback all'utente (opzionale)
+	showAutoSaveNotification();
+}
+// Funzione per mostrare una notifica di autosave (opzionale)
+const showAutoSaveNotification = ()=> {
+	// Crea o aggiorna l'elemento di notifica
+	let notification = document.getElementById('autosave-notification');
+	
+	if (!notification) {
+			notification = document.createElement('div');
+			notification.id = 'autosave-notification';
+			notification.className = 'autosave-notification';
+			document.body.appendChild(notification);
+	}
+	
+	// Imposta il messaggio e mostra la notifica
+	notification.textContent = 'Salvato automaticamente';
+	notification.classList.add('show');
+	
+	// Nascondi la notifica dopo 2 secondi
+	setTimeout(() => {
+			notification.classList.remove('show');
+	}, 2000);
+}
+
 
 // Modificare la funzione viewService per resettare l'indicatore quando si carica un servizio
 function viewService(service) {
@@ -528,6 +627,10 @@ function viewService(service) {
 	// Resetta l'indicatore di modifiche
 	showUnsavedChangesIndicator(false);
 	
+	// Cancella il timer di autosave esistente
+	if (autoSaveTimer) {
+			clearTimeout(autoSaveTimer);
+	}
 
 	appState.selectedService = service;
 	appState.editMode = true;
@@ -549,6 +652,11 @@ function addService() {
 	
 	// Resetta l'indicatore di modifiche
 	showUnsavedChangesIndicator(false);
+
+		// Cancella il timer di autosave esistente
+	if (autoSaveTimer) {
+			clearTimeout(autoSaveTimer);
+	}
 }
 
 // Inizializza il rilevamento delle modifiche

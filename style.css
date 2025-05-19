@@ -621,4 +621,31 @@ input:checked + .theme-toggle-slider:before {
         padding: 8px;
     }
 }
+/* Aggiungiamo gli stili per la notifica di autosave */
+.autosave-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--success-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
 
+.autosave-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Tema scuro per la notifica */
+body.dark-theme .autosave-notification {
+    background-color: var(--success-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
