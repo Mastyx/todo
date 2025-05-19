@@ -19,7 +19,7 @@
 	--secondary-color: #2980b9;
 	--success-color: #27ae60;
 	--danger-color: #e74c3c;
-	--primary-gradient:  linear-gradient(180deg, #FFE1E0, #F49BAB);
+	--primary-gradient:  linear-gradient(180deg, #FFB4A2, #FFCDB2);
 	--sidebar-width : 280px;
 }
 
@@ -34,7 +34,7 @@ body.dark-theme {
 	--secondary-color: #0d47a1;
 	--success-color: #4caf50;
 	--danger-color: #f44336;
-	--primary-gradient : linear-gradient(180deg, #9b7ebd 80%, #F49BAB );
+	--primary-gradient : linear-gradient(180deg, #B5828C 80%, #E5989B );
 }
 
 body {
@@ -62,7 +62,7 @@ header {
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 header>h1 {
-	font-family : Tangerine, sans-serif;
+	font-family : Cookie, sans-serif;
 	font-size : 50px;
 	text-shadow : 2px 2px #000;
 }
